@@ -1,0 +1,101 @@
+# Save the output of this file and use kubectl create -f to import
+# it into Kubernetes.
+#
+# Created with podman-4.9.4
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  annotations:
+    volume.podman.io/driver: local
+  creationTimestamp: "2024-04-05T07:28:19Z"
+  name: vol-data
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+status: {}
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  annotations:
+    volume.podman.io/driver: local
+  creationTimestamp: "2024-04-05T07:28:19Z"
+  name: vol-wp
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+status: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: "2024-04-05T07:28:20Z"
+  labels:
+    app: podwp
+  name: podwp
+spec:
+  ports:
+  - name: "80"
+    nodePort: 32287
+    port: 80
+    targetPort: 80
+  selector:
+    app: podwp
+  type: NodePort
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: "2024-04-05T07:28:20Z"
+  labels:
+    app: podwp
+  name: podwp
+spec:
+  containers:
+  - args:
+    - mariadbd
+    env:
+    - name: MARIADB_DATABASE
+      value: bd_wp
+    - name: MARIADB_ROOT_PASSWORD
+      value: asdasd
+    - name: MARIADB_USER
+      value: user_wp
+    - name: MARIADB_PASSWORD
+      value: asdasd
+    image: docker.io/library/mariadb:latest
+    name: servidormariadb
+    ports:
+    - containerPort: 80
+    volumeMounts:
+    - mountPath: /var/lib/mysql
+      name: vol-data-pvc
+  - args:
+    - apache2-foreground
+    env:
+    - name: WORDPRESS_DB_HOST
+      value: 127.0.0.1
+    - name: WORDPRESS_DB_NAME
+      value: bd_wp
+    - name: WORDPRESS_DB_USER
+      value: user_wp
+    - name: WORDPRESS_DB_PASSWORD
+      value: asdasd
+    image: docker.io/library/wordpress:latest
+    name: servidorwp
+    volumeMounts:
+    - mountPath: /var/www/html
+      name: vol-wp-pvc
+  volumes:
+  - name: vol-data-pvc
+    persistentVolumeClaim:
+      claimName: vol-data
+  - name: vol-wp-pvc
+    persistentVolumeClaim:
+      claimName: vol-wp
