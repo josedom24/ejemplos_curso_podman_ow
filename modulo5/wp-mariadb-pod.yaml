@@ -7,17 +7,17 @@ metadata:
 spec:
   containers:
   - args:
-    - mysqld
+    - mariadb
     env:
-    - name: MYSQL_USER
+    - name: MARIADB_USER
       value: wordpress
-    - name: MYSQL_ROOT_PASSWORD
+    - name: MARIADB_ROOT_PASSWORD
       value: myrootpasswd
-    - name: MYSQL_DATABASE
+    - name: MARIADB_DATABASE
       value: wordpress
-    - name: MYSQL_PASSWORD
+    - name: MARIADB_PASSWORD
       value: wordpress
-    image: docker.io/library/mysql:latest
+    image: docker.io/library/mariadb:latest
     name: db
     ports:
     - containerPort: 80
