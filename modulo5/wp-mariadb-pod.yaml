@@ -1,75 +1,66 @@
-# Save the output of this file and use kubectl create -f to import
-# it into Kubernetes.
-#
-# Created with podman-4.9.4
-apiVersion: v1
-kind: Service
-metadata:
-  creationTimestamp: "2024-04-05T15:44:39Z"
-  labels:
-    app: pod-wp-bd
-  name: pod-wp-bd
-spec:
-  ports:
-  - name: "80"
-    nodePort: 31032
-    port: 80
-    targetPort: 80
-  selector:
-    app: pod-wp-bd
-  type: NodePort
----
 apiVersion: v1
 kind: Pod
 metadata:
-  annotations:
-    bind-mount-options: /home/fedora/wp/cms:Z
-  creationTimestamp: "2024-04-05T15:44:39Z"
   labels:
-    app: pod-wp-bd
-  name: pod-wp-bd
+    app: wordpress-pod
+  name: wordpress-pod
 spec:
   containers:
   - args:
-    - mariadbd
+    - mysqld
     env:
-    - name: MARIADB_USER
-      value: user_wp
-    - name: MARIADB_PASSWORD
-      value: asdasd
-    - name: MARIADB_ROOT_PASSWORD
-      value: asdasd
-    - name: MARIADB_DATABASE
-      value: bd_wp
-    image: docker.io/library/mariadb:latest
-    name: servidormariadb
+    - name: MYSQL_USER
+      value: wordpress
+    - name: MYSQL_ROOT_PASSWORD
+      value: myrootpasswd
+    - name: MYSQL_DATABASE
+      value: wordpress
+    - name: MYSQL_PASSWORD
+      value: wordpress
+    image: docker.io/library/mysql:latest
+    name: db
     ports:
     - containerPort: 80
+      hostPort: 8080
+    resources: {}
+    securityContext:
+      capabilities:
+        drop:
+        - CAP_MKNOD
+        - CAP_NET_RAW
+        - CAP_AUDIT_WRITE
     volumeMounts:
     - mountPath: /var/lib/mysql
-      name: home-fedora-wp-data-host-0
+      name: dbvol-pvc
   - args:
     - apache2-foreground
     env:
+    - name: WORDPRESS_DB_PASSWORD
+      value: wordpress
+    - name: WORDPRESS_DB_USER
+      value: wordpress
+    - name: WORDPRESS_DB_NAME
+      value: wordpress
     - name: WORDPRESS_DB_HOST
       value: 127.0.0.1
-    - name: WORDPRESS_DB_USER
-      value: user_wp
-    - name: WORDPRESS_DB_NAME
-      value: bd_wp
-    - name: WORDPRESS_DB_PASSWORD
-      value: asdasd
     image: docker.io/library/wordpress:latest
-    name: servidorwp
+    name: wordpress
+    resources: {}
+    securityContext:
+      capabilities:
+        drop:
+        - CAP_MKNOD
+        - CAP_NET_RAW
+        - CAP_AUDIT_WRITE
     volumeMounts:
     - mountPath: /var/www/html
-      name: home-fedora-wp-cms-host-0
+      name: wpvol-pvc
+  restartPolicy: Never
   volumes:
-  - hostPath:
-      path: /home/fedora/wp/data
-      type: Directory
-    name: home-fedora-wp-data-host-0
-  - hostPath:
-      path: /home/fedora/wp/cms
-      type: Directory
-    name: home-fedora-wp-cms-host-0
+  - name: wpvol-pvc
+    persistentVolumeClaim:
+      claimName: wpvol
+  - name: dbvol-pvc
+    persistentVolumeClaim:
+      claimName: dbvol
+status: {}
