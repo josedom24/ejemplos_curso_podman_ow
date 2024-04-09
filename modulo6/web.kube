@@ -1,0 +1,8 @@
+[Unit]
+Description=Servidor web a partir de definición YAML de Kubernetes
+
+[Kube]
+Yaml=/opt/web-pod.yaml
+
+[Install]
+WantedBy=multi-user.target default.target
