@@ -1,0 +1,16 @@
+[Unit]
+Description=Un contenedor con el servidor de base de datos MariaDB
+
+[Container]
+Image=docker.io/mariadb:10.5
+ContainerName=contenedor_mariadb
+Volume=vol_mariadb.volume:/usr/lib/mysql
+Network=red_mariadb.network
+Environment=MARIADB_ROOT_PASSWORD=my-secret-pw
+
+[Service]
+Restart=always
+TimeoutStartSec=900
+
+[Install]
+WantedBy=multi-user.target default.target

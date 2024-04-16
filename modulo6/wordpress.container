@@ -1,0 +1,20 @@
+[Unit]
+Description=Un contenedor con WordPress
+
+[Container]
+Image=docker.io/wordpress
+ContainerName=wordpress
+PublishPort=8081:80
+Network=wordpress.network
+Volume=wordpress.volume:/var/www/html
+Environment=WORDPRESS_DB_HOST=db
+Environment=WORDPRESS_DB_USER=wordpress
+Environment=WORDPRESS_DB_NAME=wordpress
+Environment=WORDPRESS_DB_PASSWORD=wordpess
+
+[Service]
+Restart=always
+TimeoutStartSec=900
+
+[Install]
+WantedBy=multi-user.target default.target

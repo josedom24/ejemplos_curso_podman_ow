@@ -1,0 +1,14 @@
+[Unit]
+Description=Un contenedor webserver en un Pod
+
+[Container]
+Image=quay.io/libpod/banner
+ContainerName=contenedor_webserver
+Pod=pod_web.pod
+
+[Service]
+Restart=always
+TimeoutStartSec=900
+
+[Install]
+WantedBy=multi-user.target default.target

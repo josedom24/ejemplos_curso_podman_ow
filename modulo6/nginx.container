@@ -1,0 +1,14 @@
+[Unit]
+Description=Un contenedor con el servidor web nginx
+
+[Container]
+Image=docker.io/nginx
+ContainerName=contenedor_nginx
+PublishPort=8888:80
+
+[Service]
+Restart=always
+TimeoutStartSec=900
+
+[Install]
+WantedBy=multi-user.target default.target

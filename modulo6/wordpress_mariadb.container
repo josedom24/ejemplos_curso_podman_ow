@@ -1,0 +1,19 @@
+[Unit]
+Description=Un contenedor con el servidor de base de datos MariaDB para Wordpress
+
+[Container]
+Image=docker.io/mariadb:10.5
+ContainerName=db
+Volume=wordpress_mariadb.volume:/usr/lib/mysql
+Network=wordpress.network
+Environment=MARIADB_ROOT_PASSWORD=my-secret-pw
+Environment=MARIADB_USER=wordpress
+Environment=MARIADB_DATABASE=wordpress
+Environment=MARIADB_PASSWORD=wordpress
+
+[Service]
+Restart=always
+TimeoutStartSec=900
+
+[Install]
+WantedBy=multi-user.target default.target
