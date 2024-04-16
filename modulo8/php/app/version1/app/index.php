@@ -46,7 +46,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
-                    <h1>Curso: Introducción Docker</h1>
+                    <h1>Curso: Introducción Podman</h1>
                     <h2>Aplicación PHP + MYSQL</h2>
 					<?php
 					// Database host
@@ -72,7 +72,7 @@
 					    
 					    foreach ($users as $user) {
 					        echo "<br>";
-					        echo $user->username . " " . $user->password;
+					        echo $user->username . " -- " . $user->password;
 					        echo "<br>";
 					    }
 					}
