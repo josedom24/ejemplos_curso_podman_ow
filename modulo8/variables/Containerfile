@@ -1,0 +1,6 @@
+ARG PHP_VERSION=8.2-apache
+FROM docker.io/php:${PHP_VERSION}
+ARG APP_VERSION=desarrollo
+ENV VERSION=${APP_VERSION}
+COPY app /var/www/html/
+EXPOSE 80
