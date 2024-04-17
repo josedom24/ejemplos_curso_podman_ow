@@ -1,0 +1,8 @@
+version: '3.1'
+services:
+  app:
+    container_name: aplicacion_python
+    build: build
+    restart: always
+    ports:
+      - 3000:3000
