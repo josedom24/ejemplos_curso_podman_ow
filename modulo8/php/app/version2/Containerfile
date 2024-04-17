@@ -1,0 +1,8 @@
+FROM docker.io/php:7.4-apache
+COPY app /var/www/html/
+EXPOSE 80
+ENV DB_USER user1
+ENV DB_PASS asdasd
+ENV DB_NAME usuarios
+ENV DB_HOST mariadb
+VOLUME /var/log/apache2
