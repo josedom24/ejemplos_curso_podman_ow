@@ -1,0 +1,14 @@
+[Unit]
+Description=Un contenedor rootless con un servidor web
+
+[Container]
+Image=quay.io/libpod/banner
+ContainerName=contenedor_rootless
+PublishPort=8888:80
+
+[Service]
+Restart=always
+TimeoutStartSec=900
+
+[Install]
+WantedBy=multi-user.target default.target
