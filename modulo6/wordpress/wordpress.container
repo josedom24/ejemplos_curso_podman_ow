@@ -10,7 +10,7 @@ Volume=wordpress.volume:/var/www/html
 Environment=WORDPRESS_DB_HOST=db
 Environment=WORDPRESS_DB_USER=wordpress
 Environment=WORDPRESS_DB_NAME=wordpress
-Environment=WORDPRESS_DB_PASSWORD=wordpess
+Environment=WORDPRESS_DB_PASSWORD=wordpress
 
 [Service]
 Restart=always
