@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: "2024-04-05T06:53:21Z"
+  labels:
+    app: webserver-pod
+  name: webserver-pod
+spec:
+  containers:
+  - args:
+    - /usr/bin/run-httpd
+    image: quay.io/fedora/httpd-24:2.4
+    name: webserver
+    ports:
+    - containerPort: 8080
+      hostPort: 8090
+    securityContext:
+      runAsNonRoot: true
