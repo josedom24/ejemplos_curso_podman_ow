@@ -5,8 +5,8 @@ services:
     image: docker.io/iesgn/guestbook
     restart: always
     environment:
-      REDIS_SERVER: 10.0.0.231
-      NETWORK_INTERFACE: tap0
+      - REDIS_SERVER=10.0.0.231
+      - NETWORK_INTERFACE=tap0
     ports:
       - 8080:5000
     network_mode: "slirp4netns:port_handler=slirp4netns"
