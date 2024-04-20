@@ -2,7 +2,7 @@ version: '3.1'
 services:
   app:
     container_name: guestbook
-    image: iesgn/guestbook
+    image: docker.io/iesgn/guestbook
     restart: always
     environment:
       REDIS_SERVER: redis
@@ -10,7 +10,7 @@ services:
       - 8080:5000
   db:
     container_name: redis
-    image: redis
+    image: docker.io/redis
     restart: always
     command: redis-server --appendonly yes
     volumes:
