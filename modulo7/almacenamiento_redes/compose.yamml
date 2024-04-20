@@ -1,0 +1,33 @@
+version: '3.1'
+services:
+  c1:
+    container_name: contenedor1
+    image: alpine
+    tty: true
+    restart: always
+    networks:
+      - red_externa
+      - red_interna
+    volumes:
+      - volumen1:/data/volumen
+      - ./data:/data/directorio:Z
+    hostname: contenedor1
+    command: ash
+  c2:
+    container_name: contenedor2
+    image: alpine
+    tty: true
+    restart: always
+    networks:
+      - red_externa
+    hostname: contenedor2
+    command: ash
+networks:
+    red_externa:
+        ipam:
+            config:
+              - subnet: 192.168.10.0/24
+                gateway: 192.168.10.1
+    red_interna:
+volumes:
+  volumen1:

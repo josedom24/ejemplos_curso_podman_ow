@@ -1,0 +1,7 @@
+VERSION_WP=latest
+VERSION_MDB=latest
+PUERTO=8080
+USUARIO="prueba"
+PASS="asdasd"
+PASS_ROOT="asdasd"
+BASEDEDATOS="wordpress"
